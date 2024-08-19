@@ -45,7 +45,7 @@ urlpatterns = [
     ## AGENCY##
     path('agency_register',views.agency_register,name="agency_register"),
     path('agency_profile',views.agency_profile,name="agency_profile"),
-    # path('agency_home',views.agency_home),
+    path('agency_home',views.agency_home),
     path('add_package',views.add_package,name="add_package"),
     path('all_packages',views.all_packages,name="all_packages"),
     path('package_view/<int:id>',views.package_view,name="package_view"),

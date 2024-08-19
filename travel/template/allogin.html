@@ -6,13 +6,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body{
+            background-image: url('{% static 'images/travel_home.png' %}');
+            background-repeat: no-repeat;
+            color:white;
+        }
+        .mainav{
+            background-color: #432F1D;
+        }
+        .lists{
+            color: white;
+        }
+        .logins{
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 500px;
+            height: 400px;
+            margin-left: 350px;
+            /* margin: 100px;
+            padding: 0; */
+            border: 1px solid rgba(0,0,0,0.5);
+            border-radius: 10px 10px 2px 2px;
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+        }
+        .datas{
+            background-color: transparent;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: white;
+            color: white;
+        }
+        
+      
+    </style>
 </head>
 <body>
-    <form action="allogin" method="post">
-        {% csrf_token %}
-        <input class="border pe-5"  type="text" name="username" placeholder="Username"><br>
-        <input class="border pe-5 mt-3" type="password" name="password" placeholder="Password"><br>
-        <input class="ps-3 pe-3 pb-1 ms-5 mt-4 loginbtn"  type="submit" value="login">
-    </form>
+    <nav class="navbar navbar-expand-lg mainav">
+        <div class="container-fluid">
+          <a class="navbar-brand lists" href="#"><h4 style="font-weight: 800;">Tripozea
+            <img style="width: 30px;border-radius: 50%;height: 30px;" src="{% static 'images/travelicon.jpg' %}" alt=""></h4>
+            </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+            <ul class="navbar-nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="logins mt-5">
+        <form class="mt-5" action="allogin" method="post">
+            <h3>Login</h3>
+            {% csrf_token %}
+            <input class="pe-5 mt-5 datas"  type="text" name="username" placeholder="Username"><br>
+            <input class="pe-5 mt-3 datas" type="password" name="password" placeholder="Password"><br>
+            <input class="ps-3 pe-3 pb-1  mt-4 loginbtn"  type="submit" value="login"> <br>
+        </form> 
+        <div>
+            <p>Forget Password !... <a data-bs-toggle="modal" data-bs-target="#exampleModal" style="color: orangered;" href="#">Reset password</a> </p>
+            <p>Don't have an account! <a  href="#">Register</a> </p>
+        </div>
+      </div>
+  
+  <!-- Modal -->
+  <div class="modal fade reset " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h1 style="color: white;" class="modal-title fs-5" id="exampleModalLabel">Reset Password</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form  action="" method="post">
+                {% csrf_token %}
+                <input class="pe-5 mt-3" type="password" name="password" placeholder="Password"><br>
+                <input class="ps-3 pe-3 pb-1  mt-4 loginbtn"  type="submit" value="Confirm"> <br>
+            </form> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

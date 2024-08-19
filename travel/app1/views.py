@@ -27,7 +27,7 @@ def allogin(request):
             if data.user_type == "agency" and data.status == "pending":
                 return HttpResponse("Can't login without approval of admin.Either wait for 1 day or register again")
             if data.user_type == "agency" and data.status == "accept":
-                return redirect(all_packages)
+                return redirect(agency_home)
         else:
             return HttpResponse("incorrect credentials")
     else:
@@ -60,8 +60,9 @@ def agency_register(request):
     else:
         return render(request,'agency/agency_register.html') 
 
-# def agency_home(request):
-#     return render(request,'agency/agency_home.html')
+def agency_home(request):
+    data = Agency.objects.get(login_id=request.user.id)
+    return render(request,'agency/agency_home.html',{'data':data})
 
 def agency_profile(request):
     data = Agency.objects.get(login_id=request.user.id)  
@@ -94,7 +95,7 @@ def add_package(request):
 def all_packages(request):
     data = Agency.objects.get(login_id=request.user.id)
     package = Packages.objects.filter(agency_id=data)
-    return render(request,'agency/all_packages.html',{'data':package})
+    return render(request,'agency/all_packages.html',{'data':package,'agency':data})
 
 def package_view(request,id):
     data = Agency.objects.get(login_id=request.user.id)

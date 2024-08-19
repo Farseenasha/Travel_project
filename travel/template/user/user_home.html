@@ -6,37 +6,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UserHome</title>
+    <style>
+        /* body{
+            background-image: url('{% static 'images/user_home1.png' %}');
+            background-repeat: no-repeat;
+            color:white;
+        } */
+        .mainav{
+            background-color: #432F1D;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .lists{
+            color: white;
+            font-size: larger;
+        }
+           
+        .navbar-nav li.nav-item a.nav-link:hover {
+            color: #FFC107; 
+        }
+        .carousal{
+          position: relative;
+          color: white;
+        }
+        .centered {
+          position: absolute;
+          top: 40%;
+          left: 25%;
+          transform: translate(-50%, -50%);
+        }
+        .carousalht{
+          height: 100%;
+        }
+
+    </style>
 </head>
  
 <body>
     <a href="user_home"></a>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg mainav fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'image/travelicon.jpg' %}" alt="">
-            Tripozea</a>
+          <p class="navbar-brand lists" href="#"><h4 style="font-weight: 800;color: white;">Tripozea
+            <img style="width: 30px;border-radius: 50%;height: 30px;" src="{% static 'images/travelicon.jpg' %}" alt=""></h4>
+          </p>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="user_home">Home</a>
+          <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+            <ul class="navbar-nav ">
+              <li class="nav-item ">
+                <a class="nav-link lists mt-2" aria-current="page" href="user_home">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">Location</a>
+                <a class="nav-link lists mt-2" href="#">Location</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_allpackage' %}">packages</a>
+                <a class="nav-link lists mt-2" href="{% url 'user_allpackage' %}">Packages</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'booking_history' %}">Booking</a>
+                <a class="nav-link lists mt-2" href="{% url 'booking_history' %}">Booking</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'view_review' %}">My Review</a>
+                <a class="nav-link lists mt-2" href="{% url 'view_review' %}">My Review</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
+                <a class="nav-link lists mt-2" href="{% url 'all_logout' %}">Logout</a> 
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'user_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ data.image.url }}" alt=""></a>
@@ -46,14 +81,58 @@
         </div>
       </nav>
     
-      <div>
-        <div><h1>Discovering Something New Never gets boring</h1></div>
-        <div>
-            <p>It’s better to see something once, than to hear it thousands of time.</p>
-            <p>It gives us absolute freedom to live in the moment and it allows us to be anyone, to go anywhere and to do anything.</p>
-            <p>Live life with no excuses, travel with no regret.</p>
+      <div id="carouselExample" class="carousel slide ">
+        <div class="carousel-inner carousalht">
+          <div class="carousel-item active carousal">
+            <img src="{% static 'images/user_home1.png' %}" class="d-block w-100 img-fluid" style="object-fit: scale-down;" alt="image1">
+            <div style="padding-left: 100px;" class="col-6 ms-5 mt-5 centered">
+              <div class="ms-5"><h1 class="ms-5" style="font-weight: 900;">Discovering Something New Never gets boring</h1></div>
+              <div class="ms-5 mt-4">
+                  <p class="ms-5">It is better to see something once, than to hear it thousands of time.</p>
+                  <p class="ms-5">It gives us absolute freedom to live in the moment and it allows us to be anyone, to go anywhere and to do anything.</p>
+                  <p class="ms-5">Live life with no excuses, travel with no regret.</p>
+              </div>
+            </div>
+            <!-- <div class="centered">Centered</div> -->
+          </div>
+          <div class="carousel-item carousal">
+            <img src="{% static 'images/user_home2.png' %}" class="d-block w-100" alt="...">
+            <div style="padding-left: 100px;" class="col-6 ms-5 mt-5 centered">
+              <div class="ms-5"><h1 class="ms-5" style="font-weight: 900;">Stop worrying about the potholes in the road and celebrate the journey.</h1></div>
+              <div class="ms-5 mt-4">
+                  <p class="ms-5">It is better to see something once, than to hear it thousands of time.</p>
+                  <p class="ms-5">It gives us absolute freedom to live in the moment and it allows us to be anyone, to go anywhere and to do anything.</p>
+                  <p class="ms-5">Live life with no excuses, travel with no regret.</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item carousal">
+            <img src="{% static 'images/user_home3.png' %}" class="d-block w-100" alt="...">
+            <div style="padding-left: 100px;" class="col-6 ms-5 mt-5 centered">
+              <div class="ms-5"><h1 class="ms-5" style="font-weight: 900;">To speak a language is to take on a world, a culture.</h1></div>
+              <div class="ms-5 mt-4">
+                  <p class="ms-5">It is better to see something once, than to hear it thousands of time.</p>
+                  <p class="ms-5">It gives us absolute freedom to live in the moment and it allows us to be anyone, to go anywhere and to do anything.</p>
+                  <p class="ms-5">Live life with no excuses, travel with no regret.</p>
+              </div>
+            </div>
+          </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
       
 </body>
 </html>
+
+<!-- Traveling is one of the best ways to learn more about yourself. 
+Every day traveling brings a new set of issues and opportunities.
+To speak a language is to take on a world, a culture.
+One’s destination is never a place, but a new way of seeing things.
+Stop worrying about the potholes in the road and celebrate the journey. -->
