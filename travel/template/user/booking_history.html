@@ -6,44 +6,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+      .mainav{
+            background-color: #432F1D;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .lists{
+            color: white;
+            font-size: larger;
+        }
+           
+        .navbar-nav li.nav-item a.nav-link:hover {
+            color: #FFC107; 
+        }
+        .navbar-spacer {
+            height: 30px; /* Adjust to match the navbar height */
+            width: 100%;
+        }
+
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+      }
+      .package-container {
+          width: 90%;
+          max-width: 600px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+      .package {
+          display: flex;
+          background-color: white;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .package img {
+          width: 250px;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px;
+      }
+      .package-details {
+          padding: 15px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+      }
+      .package-title {
+          font-size: 18px;
+          font-weight: bold;
+          margin: 0;
+      }
+      .package-days {
+          color: #8a6d3b;
+          font-size: 16px;
+          margin-top: 5px;
+      }
+      .package-rating {
+          color: #FF9A3D;
+          font-size: 16px;
+          margin-top: 5px;
+      }
+      .button-group {
+
+          display: flex;
+          gap: 30px;
+          margin-top: 10px;
+      }
+      .button {
+          padding: 8px 23px;
+          font-size: 14px;
+          font-weight: bold;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .view-details {
+          background-color: 95B171;
+          color: white;
+      }
+      .cancel-booking {
+          background-color: C94444;
+          color: white;
+      }
+      .view-details a, .cancel-booking a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .view-details:hover, .cancel-booking:hover {
+      background-color: #ef9944;
+    }
+  </style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'image/travelicon.jpg' %}" alt="">
-            Tripozea</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Location</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_allpackage' %}">packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'booking_history' %}">Booking</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'view_review' %}">My Review</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ data.image.url }}" alt=""></a>
-              </li>
-            </ul>
-          </div>
+  <nav class="navbar navbar-expand-lg mainav sticky-top">
+    <div class="container-fluid">
+      <p class="navbar-brand lists" href="#"><h4 style="font-weight: 800;color: white;">Tripozea
+        <img style="width: 30px;border-radius: 50%;height: 30px;" src="{% static 'images/travelicon.jpg' %}" alt=""></h4>
+      </p>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+        <ul class="navbar-nav ">
+          <li class="nav-item ">
+            <a class="nav-link lists mt-2" aria-current="page" href="{% url 'user_home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link lists mt-2" href="{% url 'user_allpackage' %}">Packages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link lists mt-2" href="{% url 'booking_history' %}">Booking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link lists mt-2" href="{% url 'view_review' %}">My Review</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link lists mt-2" href="{% url 'all_logout' %}">Logout</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ data.image.url }}" alt=""></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="navbar-spacer"></div>
+
+      <div class="package-container mt-5">
+        {% for i in booking %}
+        <div class="package">
+            <img src="{{ i.package_id.image1.url }}" alt="Package Image">
+            <div class="package-details">
+                <p class="package-title">{{ i.package_id.package_name }}</p>
+                <p class="package-days">{{ package.duration }}</p>
+                <p class="package-rating">({{ package.reviews }} reviews) {{ package.rating }}</p>
+                <div class="button-group">
+                    <button class="button view-details"> <a href="{% url 'booking_view' id=i.id %}">View Details</a> </button>
+                    {% if i.status == "accept" %}
+                    <button class="button cancel-booking"><a href="">Cancel Booking</a></button>
+                    {% endif %}
+                    {% if i.status == "reject" %}
+                    <p style="color: red;"><i> Booking get Rejected !</i></p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </nav>
-      <div>
+        {% endfor %}
+    </div>
+
+
+      <!-- <div>
         <table style="width: 95%;" class="table table-hover ms-4 ">
             <thead>
               <tr>
@@ -71,6 +197,6 @@
                 {% endfor %}
             </tbody>
         </table>
-      </div>
+      </div> -->
 </body>
 </html>

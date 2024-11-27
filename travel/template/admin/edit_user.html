@@ -1,0 +1,20 @@
+<div>
+    <h1 class="text-center">Edit User Profile</h1>
+    <form action="{% url 'user_edit' id=data.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Name</label><br>
+        <input type="text" name="name" value="{{ data.name }}"><br><br>
+        <label>Email</label><br>
+        <input type="email" name="email" value="{{ data.email }}"><br><br>
+        <label>Address</label><br>
+        <input type="text" name="address" value="{{ data.address }}"><br><br>
+        <label>Phone number</label><br>
+        <input type="number" name="phone" value="{{ data.phone }}"><br><br>
+        <label>Image</label><br>
+        <input type="file" name="image" value="{{ data.image }}">
+        <div class="text-center"> 
+            <input style="padding-left:15px;padding-right:15px;border-radius: 8px;"  type="submit" value="Update">
+        </div>
+    </form> 
+    </div>
+  </div>

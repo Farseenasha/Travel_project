@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import All_login , Customer,Agency,Packages,Booking,Reviews
 from django.contrib.auth.models import User,auth
+from django.core.mail import send_mail
+import random
+from django.contrib import messages
 
 # Create your views here.
 
@@ -16,7 +19,8 @@ def allogin(request):
         admin_user = auth.authenticate(request,username=Username,password=Password)
         if admin_user is not None and admin_user.is_staff:
             auth.login(request,admin_user)
-            return redirect(agency_view)
+            return redirect(dashboard)
+            # return redirect(agency_view)
             # return HttpResponse("admin loged in") 
         data = auth.authenticate(username=Username,password=Password)
         if data is not None:
@@ -36,6 +40,57 @@ def allogin(request):
 def all_logout(request):
     auth.logout(request)
     return redirect(allogin)
+
+def send_otp(email):
+    otp = random.randint(100000,999999)
+    send_mail('your otp',
+              f'{otp}',
+              'farseenasha313@gmail.com',
+              [email],fail_silently=False)
+    return otp
+
+def pswrd_rqst(request):
+    if request.method == "POST":
+        email = request.POST["mail"]
+        try:
+            user = Customer.objects.get(email=email)
+            otp = send_otp(email)
+            print(otp)
+            return render(request,'otpvar.html',{'mail':email,'otp':otp})
+        except:
+            messages.error(request,'Email incorrect')
+            return render(request, 'pswrd.html') 
+    else:
+        return render(request,'pswrd.html')
+
+def otp(request):
+    if request.method == "POST":
+        mail = request.POST["email"] 
+        otp =  request.POST["otp"]           
+        otpnew =  request.POST["otpnew"]
+        if otp == otpnew :
+            return render(request,'resetpswrd.html',{'mail':mail})
+        else:
+            messages.error(request,'Incorrect otp') 
+    else:
+        return render(request,'otpvar.html')
+
+def resetpswrd(request):
+    if request.method == "POST":
+        mail = request.POST["email"]
+        pswrd =  request.POST["pswrd"] 
+        confirmpswrd =  request.POST["confirmpswrd"]
+        if pswrd == confirmpswrd:
+            user = Customer.objects.get(email=mail)
+            a = All_login.objects.get(id=user.login_id.id)
+            a.set_password(confirmpswrd)
+            a.save()
+            return redirect (allogin)
+        else:
+            return render(request,'resetpswrd',{'a':"password does'nt match"})
+    else:
+        return render(request,'resetpswrd')
+    
 
       ### AGENCY ###
 def agency_register(request):
@@ -69,6 +124,7 @@ def agency_profile(request):
     return render(request,'agency/agency_profile.html',{'data':data})
 
 def add_package(request):
+    agency = Agency.objects.get(login_id=request.user.id) 
     if request.method == "POST":
        Package_name = request.POST["package_name"]
        Place = request.POST["place"]
@@ -82,15 +138,14 @@ def add_package(request):
        Image1 = request.FILES["image1"]
        Image2 = request.FILES["image2"]
        Image3 = request.FILES["image3"]
-       Image4 = request.FILES["image4"]
-       agency = Agency.objects.get(login_id=request.user.id)   
+       Image4 = request.FILES["image4"]  
        data = Packages.objects.create(agency_id=agency,package_name=Package_name,place=Place,start_place=Start_place,
                                       end_place=End_place,about=About,description=Description,days=Days,price_adult=Price_adult,
                                       price_children=Price_children,image1=Image1,image2=Image2,image3=Image3,image4=Image4)
        data.save()
        return redirect(all_packages)
     else:
-        return render(request,'agency/add_package.html')
+        return render(request,'agency/add_package.html',{'agency':agency})
     
 def all_packages(request):
     data = Agency.objects.get(login_id=request.user.id)
@@ -100,13 +155,14 @@ def all_packages(request):
 def package_view(request,id):
     data = Agency.objects.get(login_id=request.user.id)
     package = Packages.objects.get(id=id)
-    return render(request,'agency/package_view.html',{'data':package})
+    return render(request,'agency/package_view.html',{'data':package,'agency':data})
 
 def edit_package(request,id):
     data = Agency.objects.get(login_id=request.user.id)
     package = Packages.objects.get(id=id)
     if request.method == "POST":
         package.package_name = request.POST['package_name']
+        package.place = request.POST['place']
         package.start_place =  request.POST['start_place']
         package.end_place =  request.POST['end_place']
         package.about =  request.POST['about']
@@ -124,7 +180,7 @@ def edit_package(request,id):
         package.save()
         return redirect(all_packages)
     else:
-        return render(request,'agency/edit_package.html',{'package':package})
+        return render(request,'agency/edit_package.html',{'package':package,'agency':data})
     
 def delete_package(request,id):
     data = Agency.objects.get(login_id=request.user.id)
@@ -132,10 +188,18 @@ def delete_package(request,id):
     package.delete()
     return redirect(all_packages)
 
+def search_package(request):
+    if request.method == "POST" :
+        search = request.POST["search"]
+        data = Packages.objects.filter(place__icontains=search)
+        return render(request,'agency/all_packages.html',{'data':data})
+    else:
+        return render(request,'agency/all_packages.html')
+
 def all_bookings(request):
     data = Agency.objects.get(login_id=request.user.id)
     booking = Booking.objects.filter(package_id__agency_id=data)
-    return render(request,'agency/all_bookings.html',{'booking':booking})
+    return render(request,'agency/all_bookings.html',{'booking':booking,'agency':data})
 
 def booking_status(request,id):
     data = Agency.objects.get(login_id=request.user.id)
@@ -146,11 +210,13 @@ def booking_status(request,id):
             if booking_status == "accept":
                 booking.status = booking_status
                 booking.save()
-                return HttpResponse("booking accepted")
+                return redirect(all_bookings)
+                # return HttpResponse("booking accepted")
             if booking_status == "reject":
                 booking.status = booking_status
                 booking.save()
-                return HttpResponse("booking rejected")
+                return redirect(all_bookings)
+                # return HttpResponse("booking rejected")
     except Exception as e:
         return HttpResponse({e})
         
@@ -160,7 +226,7 @@ def booking_status(request,id):
 def booking_detail(request,id):
     data = Agency.objects.get(login_id=request.user.id)
     booking = Booking.objects.get(id=id)
-    return render(request,'agency/booking_detail.html',{'data':booking})
+    return render(request,'agency/booking_detail.html',{'data':booking,'agency':data})
 
 def user_reviews(request):
     data = Agency.objects.get(login_id=request.user.id)
@@ -218,12 +284,23 @@ def useredit_profile(request):
         return render(request,'user/useredit_profile.html',{'data':data}) 
 
 def user_allpackage(request):
+    user = Customer.objects.get(login_id=request.user.id)
     data = Packages.objects.all()
-    return render(request,'user/user_allpackage.html',{'data':data})
+    return render(request,'user/user_allpackage.html',{'data':data,'user':user})
+
+def user_searchpackage(request):
+    if request.method == "POST" :
+        search = request.POST["search"]
+        data = Packages.objects.filter(place__icontains=search)
+        return render(request,'user/user_allpackage.html',{'data':data})
+    else:
+        return render(request,'user/user_allpackage.html')
+
 
 def user_viewpackage(request,id):
+    user = Customer.objects.get(login_id=request.user.id)
     data = Packages.objects.get(id=id)
-    return render(request,'user/user_packageview.html',{'data':data})
+    return render(request,'user/user_packageview.html',{'data':data,'user':user})
 
 def user_booking(request,id):
     user = Customer.objects.get(login_id=request.user.id)
@@ -242,10 +319,12 @@ def user_booking(request,id):
         return render(request,'user/user_booking.html',{'data':user, 'package':package})
 
 def booking_history(request):
+    user = Customer.objects.get(login_id=request.user.id)
     booking = Booking.objects.all()
-    return render(request,'user/booking_history.html',{'booking':booking})
+    return render(request,'user/booking_history.html',{'data':user,'booking':booking})
 
 def booking_view(request,id):
+    
     data = Booking.objects.get(id=id)
     return render(request,'user/booking_view.html',{'data':data})
 
@@ -273,14 +352,49 @@ def delete_review(request,id):
 
 
 ## ADMIN ##
+def dashboard(request):
+    return render(request,'admin/dashboard.html')
 
-def agency_view(request):
-    agency = Agency.objects.filter(login_id__status="pending")
-    print(agency)
-    return render(request,'admin/agency_status.html',{'agency':agency})
+def user_list(request):
+    users = Customer.objects.all()
+    return render(request, 'admin/user_list.html', {'users': users})
 
+def user_edit(request,id):
+    data = Customer.objects.get(id=id)
+    if request.method == "POST":
+        data.name = request.POST['name']
+        data.email =  request.POST['email']
+        data.address =  request.POST['address']
+        data.phone =  request.POST['phone']
+        if 'image' in request.FILES:
+            data.image =  request.FILES['image']
+        data.save()
+        return redirect(user_list)
+    else:
+        return render(request,'admin/edit_user.html',{'data':data})
 
-def agency_status(request,id):
+def agency_list(request):
+    agencies = Agency.objects.all()
+    return render(request, 'admin/agency_list.html', {'agencies': agencies})
+
+def package_list(request):
+    packages = Packages.objects.all()
+    return render(request, 'admin/package_list.html', {'packages': packages})
+
+def package_detail(request, id):
+    package = Packages.objects.get(id=id)
+    return render(request, 'admin/package_detail.html', {'data': package})
+
+def admndelete_package(request,id):
+    package = Packages.objects.get(id=id)
+    package.delete()
+    return redirect('package_list')
+
+def agency_list(request):
+    agencies = Agency.objects.all()
+    return render(request, 'admin/agency_list.html', {'agencies': agencies})
+
+def update_agency_status(request,id):
     agency = Agency.objects.get(id=id) 
     logdata = All_login.objects.get(id=agency.login_id.id)
     try:
@@ -289,15 +403,62 @@ def agency_status(request,id):
             if agency_status == "accept":
                 logdata.status = agency_status
                 logdata.save()
-                return redirect(agency_view)
+                return redirect(agency_list)
             if agency_status == "reject":
                 logdata.status = agency_status
                 logdata.save()
-                return redirect(agency_view)
+                return redirect(agency_list)
     except Exception as e:
         return HttpResponse({e})
         
     else:
-        return redirect(agency_view)
+        return redirect(agency_list)
+
+
+def agency_document(request,id):
+    agency = Agency.objects.get(id=id)
+    return render(request, 'admin/agency_document.html', {'agency': agency})
+
+
+
+def package_list(request):
+    packages = Packages.objects.all()
+    return render(request, 'admin/package_list.html', {'packages': packages})
+
+def package_detail(request, id):
+    package = Packages.objects.get(id=id)
+    return render(request, 'admin/package_detail.html', {'data': package})
+
+def admndelete_package(request, id):
+    package = Packages.objects.get(id=id)
+    package.delete()
+    return redirect('package_list')
+
+
+# non using
+# def agency_view(request):
+#     agency = Agency.objects.filter(login_id__status="pending")
+#     print(agency)
+#     return render(request,'admin/agency_status.html',{'agency':agency})
+
+# def agency_status(request,id):
+#     agency = Agency.objects.get(id=id) 
+#     logdata = All_login.objects.get(id=agency.login_id.id)
+#     try:
+#         if request.method == "POST":
+#             agency_status = request.POST['status']
+#             if agency_status == "accept":
+#                 logdata.status = agency_status
+#                 logdata.save()
+#                 return redirect(agency_view)
+#             if agency_status == "reject":
+#                 logdata.status = agency_status
+#                 logdata.save()
+#                 return redirect(agency_view)
+#     except Exception as e:
+#         return HttpResponse({e})
+        
+#     else:
+#         return redirect(agency_view)
     
-# def all_agencies(request):
+

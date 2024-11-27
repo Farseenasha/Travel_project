@@ -92,11 +92,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form  action="" method="post">
-                {% csrf_token %}
-                <input class="pe-5 mt-3" type="password" name="password" placeholder="Password"><br>
-                <input class="ps-3 pe-3 pb-1  mt-4 loginbtn"  type="submit" value="Confirm"> <br>
-            </form> 
+          
+                <p>Do you want to change your password..?</p>
+                <!-- <input class="pe-5 mt-3" type="password" name="password" placeholder="Password"><br> -->
+              <a href="{% url 'pswrd' %}"><button style="border-radius: 8px;">yes</button></a>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>

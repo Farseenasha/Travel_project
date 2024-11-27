@@ -1,0 +1,58 @@
+<!-- agency_list.html -->
+{% extends 'admin/base1.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Agency List</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in agencies %}
+            <tr>
+                <td><img src="{{ i.image.url }}" alt="{{ i.name }}" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+                <td><a href="{% url 'agency_document' i.id %}">{{ i.name }}</a></td>
+                <td>{{ i.email }}</td>
+                <td>
+                    {% if i.login_id.status == 'pending' %}
+                        <span class="badge bg-warning"> Pending</span>
+                    {% elif i.login_id.status == 'accept' %}
+                        <span class="badge bg-success">Accepted</span>
+                    {% else %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if i.login_id.status == 'pending' %}
+                    <form action="{% url 'update_agency_status' id=i.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status">
+                        <input style="background-color: green;color: white;" type="submit" name="status" value="accept">
+                        <input style="background-color: red;color: white;" type="submit" name="status" value="reject">
+                    </form>
+                    {% elif i.login_id.status == 'accept' %}
+                    <form action="{% url 'update_agency_status' id=i.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status">
+                        <input type="submit" class="btn btn-danger btn-sm" name="status" value="reject">
+                    </form>
+                    {% elif i.login_id.status == 'reject' %}
+                    <form action="{% url 'update_agency_status' id=i.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status">
+                        <input type="submit" class="btn btn-success btn-sm" name="status" value="accept">
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

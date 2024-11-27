@@ -27,6 +27,9 @@ urlpatterns = [
     path('',views.home,name="home"),
     path('allogin',views.allogin,name="allogin"),
     path('all_logout',views.all_logout,name="all_logout"),
+    path('pswrd',views.pswrd_rqst,name="pswrd"),
+    path('otpvar',views.otp,name="otpvar"),
+    path('resetpswrd',views.resetpswrd,name="resetpswrd"),
 
     ## USER ##
     path('user_register',views.user_register,name="user_register"),
@@ -34,6 +37,7 @@ urlpatterns = [
     path('user_profile',views.user_profile,name="user_profile"),
     path('useredit_profile',views.useredit_profile,name="useredit_profile"),
     path('user_allpackage',views.user_allpackage,name="user_allpackage"),
+    path('user_searchpackage',views.user_searchpackage,name="user_searchpackage"),
     path('user_packageview/<int:id>',views.user_viewpackage,name="user_packageview"),
     path('user_booking/<int:id>',views.user_booking,name="user_booking"),
     path('booking_history',views.booking_history,name="booking_history"),
@@ -47,6 +51,7 @@ urlpatterns = [
     path('agency_profile',views.agency_profile,name="agency_profile"),
     path('agency_home',views.agency_home),
     path('add_package',views.add_package,name="add_package"),
+    path('search_package',views.search_package,name="search_package"),
     path('all_packages',views.all_packages,name="all_packages"),
     path('package_view/<int:id>',views.package_view,name="package_view"),
     path('edit_package/<int:id>',views.edit_package,name="edit_package"),
@@ -57,9 +62,16 @@ urlpatterns = [
     path('user_reviews',views.user_reviews,name="user_reviews"),
 
     ##ADMIN##
-    
-    path('agency_view',views.agency_view,name="agency_view"),
-    path('agency_status/<int:id>',views.agency_status,name="agency_status"),
+    path('dashboard',views.dashboard,name="dashboard"),
+    path('user_list/', views.user_list, name='user_list'),
+    path('user_edit/<int:id>',views.user_edit, name='user_edit'),
+    path('agency_list/', views.agency_list, name='agency_list'),
+    path('update_agency/<int:id>', views.update_agency_status, name='update_agency_status'),
+    path('agency_document/<int:id>', views.agency_document, name='agency_document'),
+    path('packages/', views.package_list, name='package_list'),
+    path('package_detail/<int:id>/', views.package_detail, name='package_detail'),
+    path('admndelete_package/<int:id>/', views.admndelete_package, name='admndelete_package'),
+   
 ]
 
 if settings.DEBUG:

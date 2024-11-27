@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'otpvar' %}" method="post">
+        {% csrf_token %}
+        <input type="email" value="{{ mail }}" name="email" readonly>
+        <input type="text" value="{{ otp }}" name="otp" hidden>
+        <input type="text" placeholder="Enter your otp" name="otpnew">
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>

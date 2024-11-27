@@ -59,9 +59,6 @@
                 <a class="nav-link lists mt-2" aria-current="page" href="user_home">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link lists mt-2" href="#">Location</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link lists mt-2" href="{% url 'user_allpackage' %}">Packages</a>
               </li>
               <li class="nav-item">
@@ -81,7 +78,7 @@
         </div>
       </nav>
     
-      <div id="carouselExample" class="carousel slide ">
+      <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
         <div class="carousel-inner carousalht">
           <div class="carousel-item active carousal">
             <img src="{% static 'images/user_home1.png' %}" class="d-block w-100 img-fluid" style="object-fit: scale-down;" alt="image1">

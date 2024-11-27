@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{%  url 'resetpswrd' %}" method="post">
+        {% csrf_token %}
+        <input type="email" value="{{ mail }}" readonly name="email">
+        <input type="password" placeholder="entr new password" name="pswrd">
+        <input type="password" placeholder="confirm password" name="confirmpswrd">
+        <input type="submit" value="submit">
+    </form>
+    {% if a %}
+    <p>{{ a }}</p>
+    {% endif %}
+</body>
+</html>

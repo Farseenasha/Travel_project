@@ -6,66 +6,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add package</title>
+    <style>
+      body{
+            background-image: url('{% static 'images/travel_home.png' %}');
+            background-repeat: no-repeat;
+            color:white;
+      }
+      .mainav{
+          background-color: #432F1D;
+        }
+      .lists{
+          color: white;
+          font-size: larger;
+        } 
+      .nav-link{
+          color: white;
+          font-size: larger;  
+        }
+        .add{
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 700px;
+            height: 480px;
+            margin-left: 250px;
+            /* margin: 100px;
+            padding: 0; */
+            border: 1px solid rgba(0,0,0,0.5);
+            border-radius: 10px 10px 2px 2px;
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+            -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+        }
+        .datas{
+          background-color: transparent;
+          border-top-color: transparent;
+          border-left-color: transparent;
+          border-right-color: transparent;
+          margin-top: 10px;
+          border-bottom-color: white;
+          color: white;
+          width: 75%;
+        }
+        
+
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'image/travelicon.jpg' %}" alt="">
-            Tripozea</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href=""></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_packages' %}">packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_bookings' %}">Booking</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'add_package' %}">Add packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_reviews' %}">View Reviews</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'agency_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ data.image.url }}" alt=""></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div>
+  <nav class="navbar navbar-expand-lg mainav">
+    <div class="container-fluid">
+      <a class="navbar-brand lists" href="#"><h4 style="font-weight: 800;" >Tripozea
+        <img style="width: 30px;border-radius: 50%;height: 30px;" src="{% static 'images/travelicon.jpg' %}" alt=""></h4>
+        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_packages' %}">packages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_bookings' %}">Booking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_package' %}">Add packages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_reviews' %}">View Reviews</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'agency_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ agency.image.url }}" alt=""></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+      
+      <div class="add mt-4">
         <form action="add_package" method="post" enctype="multipart/form-data">
+          <h3 class="mt-3">Add Package</h3>
             {% csrf_token %}
-            <input type="text" name="package_name" placeholder="Package Name"> <br>
-            <input type="text" name="place" placeholder="Place"> <br>
-            <input type="text" name="start_place" placeholder="Start Place"> <br>
-            <input type="tect" name="end_place" placeholder="End Place"><br>
-            <textarea name="about" placeholder="About"></textarea> <br>
-            <!-- <input type="text" name="about" placeholder="About"> <br>  -->
-            <textarea name="description" placeholder="Description"></textarea> <br>
-            <!-- <input type="text" name="description" placeholder="Description"> <br> -->
-            <input type="text" name="days" placeholder="Days"> <br>
-            <input type="text" name="price_adult" placeholder="Price Adult"> <br>
-            <input type="text" name="price_children" placeholder="Price Children"> <br>
-            <label >Main image</label>
-            <input type="file" name="image1"><br>
-            <label >Image2</label>
-            <input type="file" name="image2"><br>
-            <label >Image3</label>
-            <input type="file" name="image3"><br>
-            <label >Image4</label>
-            <input type="file" name="image4"><br>
-            <input type="submit" value="submit"> <br>
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  <input class="datas" type="text" name="package_name" placeholder="Package Name"> <br>
+                  <input class="datas" type="text" name="place" placeholder="Place"> <br>
+                  <input class="datas" type="text" name="start_place" placeholder="Start Place"> <br>
+                  <input class="datas" type="tect" name="end_place" placeholder="End Place"><br>
+                  <textarea class="datas" name="about" placeholder="About"></textarea> <br>
+                  <textarea class="datas pb-3" name="description" placeholder="Description"></textarea> <br>
+                </div>
+                <div class="col-6">
+                  <input class="datas" type="text" name="days" placeholder="Days"> <br>
+                  <input class="datas" type="text" name="price_adult" placeholder="Price Adult"> <br>
+                  <input class="datas" type="text" name="price_children" placeholder="Price Children"> <br>
+                  <input class=" mt-3 ms-3 me-1" style="width: 100px;" type="file" name="image1" placeholder="Image">
+                  <label for="">Upload main image</label><br>
+                  <input class=" mt-3 ms-3 me-3" style="width: 100px;" type="file" name="image2" placeholder="Image">
+                  <label for="">Upload 1st image</label><br>
+                  <input class=" mt-3 ms-3 me-3" style="width: 100px;" type="file" name="image3" placeholder="Image">
+                  <label for="">Upload 2nd image</label><br>
+                  <input class=" mt-3 ms-3 me-3" style="width: 100px;" type="file" name="image4" placeholder="Image">
+                  <label for="">Upload 3rd image</label><br>
+                </div>
+              </div>
+            </div>
+            <div>
+              <input class="mt-5 " type="submit" value="Add package"> <br>
+            </div> 
         </form>
       </div> 
 </body>

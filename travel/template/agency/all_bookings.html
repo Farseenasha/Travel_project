@@ -6,73 +6,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All bookings</title>
+    <style>
+      .mainav{
+          background-color: #432F1D;
+        }
+      .lists{
+          color: white;
+          font-size: larger;
+        } 
+      .nav-link{
+          color: white;
+          font-size: larger;  
+        }
+      td {
+          text-align: center;
+          vertical-align: middle;
+          background-color: #ececed !important;
+          
+        }
+        table {
+          border-collapse: separate;
+          /* border-spacing: 0 15px; */
+          border-spacing: 0 5px; /* 0px between columns, 15px between rows */
+      }
+      .detail{
+        text-decoration: none;
+        color: CA6100;
+      }  
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'image/travelicon.jpg' %}" alt="">
-            Tripozea</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href=""></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_packages' %}">packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_bookings' %}">Booking</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'add_package' %}">Add packages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_reviews' %}">View Reviews</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'agency_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ data.image.url }}" alt=""></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  <nav class="navbar navbar-expand-lg mainav">
+    <div class="container-fluid">
+      <a class="navbar-brand lists" href="#"><h4 style="font-weight: 800;" >Tripozea
+        <img style="width: 30px;border-radius: 50%;height: 30px;" src="{% static 'images/travelicon.jpg' %}" alt=""></h4>
+        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_packages' %}">packages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_bookings' %}">Booking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_package' %}">Add packages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_reviews' %}">View Reviews</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_logout' %}">Logout</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'agency_profile' %}"><img style="border-radius: 50%;width: 50px;" src="{{ agency.image.url }}" alt=""></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
       <div>
-        <table style="width: 95%;" class="table table-hover ms-4 ">
+        <table style="width: 95%;" class="table table-hover mt-3 ms-4 text-center ">
             <thead>
-              <tr>
+              <tr style="border-bottom-color: black;">
                 <th scope="col">Name</th>
                 <th scope="col">Package_name</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr>
+              <tr style="height: 70px;">
                 {% for i in booking %}
-                <td>{{ i.user_id.name }}</td>
+                <td style="height: 70px;border-radius: 5px 0 0 5px;">{{ i.user_id.name }}</td>
                 <td>{{ i.package_id.package_name }}</td>
-                <td><button><a href="{% url 'booking_detail' id=i.id %}">View</a></button></td>
+                <td><a class="detail" href="{% url 'booking_detail' id=i.id %}">Details</a></td>
                 {% if i.status == "pending" %}
                 <form action="{% url 'booking_status' id=i.id %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="status">
-                    <td><input type="submit" name="status" value="accept"></td>
-                    <td><input type="submit" name="status" value="reject"></td>
+                    <td><input type="submit" name="status" value="accept" class="btn btn-success ps-4 pe-4"></td>
+                    <td style="border-radius: 0px 5px 5px 0px;"><input type="submit" name="status" value="reject" class="btn btn-danger ps-4 pe-4"></td>
                 </form>
                 {% endif %}
                 {% if i.status == "accept" %}
-                <td>Accepted</td>
+                <td style="border-radius: 0px 5px 5px 0px;color: green;" class="text-center" colspan="2">Accepted</td>
                 {% endif %}
                 {% if i.status == "reject" %}
-                <td>Rejected</td>
+                <td style="border-radius: 0px 5px 5px 0px;color: red;" class="text-center" colspan="2">Rejected</td>
                 {% endif %}
             </tr>
               {% endfor %}

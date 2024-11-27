@@ -1,0 +1,24 @@
+<!-- package_list.html -->
+{% extends 'admin/base1.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Package List</h2>
+    <div class="row">
+        {% for i in packages %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="{{ i.image1.url }}" class="card-img-top" alt="{{ i.package_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ i.package_name }}</h5>
+                    <p class="card-text">{{ i.place }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'package_detail' id=i.id %}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{% url 'admndelete_package' id=i.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

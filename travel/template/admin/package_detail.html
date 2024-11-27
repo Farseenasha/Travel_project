@@ -1,0 +1,26 @@
+<!-- package_detail.html -->
+{% extends 'admin/base1.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ data.package_name }}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ data.image1.url }}" class="img-fluid mb-3" alt="{{ data.package_name }}">
+            <img src="{{ data.image2.url }}" class="img-fluid mb-3" alt="{{ data.package_name }}">
+            <img src="{{ data.image3.url }}" class="img-fluid mb-3" alt="{{ data.package_name }}">
+            <img src="{{ data.image4.url }}" class="img-fluid mb-3" alt="{{ data.package_name }}">
+        </div>
+        <div class="col-md-6">
+            <p><strong>Place:</strong> {{ data.place }}</p>
+            <p><strong>Start Place:</strong> {{ data.start_place }}</p>
+            <p><strong>End Place:</strong> {{ data.end_place }}</p>
+            <p><strong>About:</strong> {{ data.about }}</p>
+            <p><strong>Description:</strong> {{ data.description }}</p>
+            <p><strong>Days:</strong> {{ data.days }}</p>
+            <p><strong>Price (Adult):</strong> ${{ data.price_adult }}</p>
+            <p><strong>Price (Children):</strong> ${{ data.price_children }}</p>
+            <a href="{% url 'admndelete_package' id=data.id %}" class="btn btn-danger">Delete Package</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
